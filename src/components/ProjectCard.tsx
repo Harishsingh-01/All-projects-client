@@ -1,71 +1,138 @@
 import React from 'react';
-import { Card, CardContent, Typography, IconButton, Box } from '@mui/material';
-import { Delete as DeleteIcon, Launch as LaunchIcon, Edit as EditIcon } from '@mui/icons-material';
+import {
+  Card,
+  CardContent,
+  CardActions,
+  Typography,
+  IconButton,
+  Box,
+  Tooltip,
+  useTheme,
+  alpha,
+} from '@mui/material';
+import { Edit as EditIcon, Delete as DeleteIcon, Launch as LaunchIcon } from '@mui/icons-material';
 import { Project } from '../types';
 
 interface ProjectCardProps {
-    project: Project;
-    onDelete: (id: string) => void;
-    onEdit: (project: Project) => void;
+  project: Project;
+  onEdit: (project: Project) => void;
+  onDelete: (id: string) => void;
 }
 
-const ProjectCard: React.FC<ProjectCardProps> = ({ project, onDelete, onEdit }) => {
-    return (
-        <Card 
-            sx={{ 
-                maxWidth: 345,
-                height: '100%',
-                display: 'flex',
-                flexDirection: 'column',
-                position: 'relative',
-                transition: 'transform 0.2s ease-in-out',
-                '&:hover': {
-                    transform: 'translateY(-4px)',
-                    boxShadow: 3
-                }
-            }}
+const ProjectCard: React.FC<ProjectCardProps> = ({ project, onEdit, onDelete }) => {
+  const theme = useTheme();
+
+  const handleLaunch = () => {
+    window.open(project.link, '_blank');
+  };
+
+  return (
+    <Card
+      sx={{
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        transition: 'transform 0.2s, box-shadow 0.2s',
+        '&:hover': {
+          transform: 'translateY(-4px)',
+          boxShadow: theme.shadows[8],
+        },
+        background: `linear-gradient(135deg, ${alpha(theme.palette.primary.main, 0.05)} 0%, ${alpha(theme.palette.background.paper, 0.1)} 100%)`,
+        borderRadius: 2,
+        border: `1px solid ${alpha(theme.palette.primary.main, 0.1)}`,
+      }}
+    >
+      <CardContent sx={{ flexGrow: 1, p: 3 }}>
+        <Typography
+          variant="h6"
+          component="h2"
+          gutterBottom
+          sx={{
+            fontWeight: 600,
+            color: theme.palette.primary.main,
+            mb: 2,
+            fontSize: '1.25rem',
+          }}
         >
-            <CardContent sx={{ flexGrow: 1 }}>
-                <Typography 
-                    variant="h6" 
-                    component="div" 
-                    sx={{ 
-                        mb: 2,
-                        fontWeight: 500,
-                        color: 'primary.main'
-                    }}
-                >
-                    {project.title}
-                </Typography>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 'auto' }}>
-                    <IconButton 
-                        href={project.link} 
-                        target="_blank" 
-                        color="primary"
-                        sx={{ '&:hover': { backgroundColor: 'primary.light' } }}
-                    >
-                        <LaunchIcon />
-                    </IconButton>
-                    <Box>
-                        <IconButton 
-                            onClick={() => onEdit(project)}
-                            color="info"
-                            sx={{ '&:hover': { backgroundColor: 'info.light' } }}
-                        >
-                            <EditIcon />
-                        </IconButton>
-                        <IconButton 
-                            onClick={() => onDelete(project._id)}
-                            color="error"
-                            sx={{ '&:hover': { backgroundColor: 'error.light' } }}
-                        >
-                            <DeleteIcon />
-                        </IconButton>
-                    </Box>
-                </Box>
-            </CardContent>
-        </Card>
-    );
+          {project.title}
+        </Typography>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1,
+            color: theme.palette.text.secondary,
+            fontSize: '0.875rem',
+            mb: 2,
+          }}
+        >
+          <LaunchIcon sx={{ fontSize: '1rem' }} />
+          <Typography
+            variant="body2"
+            sx={{
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+              maxWidth: '100%',
+            }}
+          >
+            {project.link}
+          </Typography>
+        </Box>
+      </CardContent>
+      <CardActions
+        sx={{
+          p: 2,
+          pt: 0,
+          justifyContent: 'flex-end',
+          gap: 1,
+        }}
+      >
+        <Tooltip title="Open Link">
+          <IconButton
+            onClick={handleLaunch}
+            size="small"
+            sx={{
+              color: theme.palette.primary.main,
+              '&:hover': {
+                backgroundColor: alpha(theme.palette.primary.main, 0.1),
+              },
+            }}
+          >
+            <LaunchIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Edit">
+          <IconButton
+            onClick={() => onEdit(project)}
+            size="small"
+            sx={{
+              color: theme.palette.info.main,
+              '&:hover': {
+                backgroundColor: alpha(theme.palette.info.main, 0.1),
+              },
+            }}
+          >
+            <EditIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Delete">
+          <IconButton
+            onClick={() => onDelete(project._id)}
+            size="small"
+            sx={{
+              color: theme.palette.error.main,
+              '&:hover': {
+                backgroundColor: alpha(theme.palette.error.main, 0.1),
+              },
+            }}
+          >
+            <DeleteIcon />
+          </IconButton>
+        </Tooltip>
+      </CardActions>
+    </Card>
+  );
 };
 
 export default ProjectCard; 
