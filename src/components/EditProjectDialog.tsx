@@ -35,7 +35,11 @@ const EditProjectDialog: React.FC<EditProjectDialogProps> = ({ open, onClose, on
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (project && title.trim() && link.trim()) {
-            onEdit(project._id, { title: title.trim(), link: link.trim() });
+            onEdit(project._id, { 
+                title: title.trim(), 
+                link: link.trim(),
+                createdAt: project.createdAt // Preserve the original createdAt date
+            });
             onClose();
         }
     };
