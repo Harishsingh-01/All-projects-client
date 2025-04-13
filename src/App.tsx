@@ -44,9 +44,9 @@ function App() {
         setIsEditDialogOpen(true);
     };
 
-    const handleSaveEdit = async (id: string, title: string, link: string) => {
+    const handleSaveEdit = async (id: string, project: Omit<Project, '_id'>) => {
         try {
-            await axios.put(`${API_URL}/projects/${id}`, { title, link });
+            await axios.put(`${API_URL}/projects/${id}`, project);
             loadProjects();
         } catch (error) {
             console.error('Error updating project:', error);
@@ -101,7 +101,7 @@ function App() {
                     setIsEditDialogOpen(false);
                     setSelectedProject(null);
                 }}
-                onSave={handleSaveEdit}
+                onEdit={handleSaveEdit}
                 project={selectedProject}
             />
         </Container>
