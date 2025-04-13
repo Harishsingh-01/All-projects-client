@@ -30,9 +30,9 @@ function App() {
         }
     };
 
-    const handleAddProject = async (title: string, link: string) => {
+    const handleAddProject = async (project: Omit<Project, '_id'>) => {
         try {
-            await axios.post(`${API_URL}/projects`, { title, link });
+            await axios.post(`${API_URL}/projects`, project);
             loadProjects();
         } catch (error) {
             console.error('Error adding project:', error);
