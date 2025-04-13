@@ -30,9 +30,9 @@ function App() {
         }
     };
 
-    const handleAddProject = async (project: Omit<Project, '_id'>) => {
+    const handleAddProject = async (title: string, link: string) => {
         try {
-            await axios.post(`${API_URL}/projects`, project);
+            await axios.post(`${API_URL}/projects`, { title, link });
             loadProjects();
         } catch (error) {
             console.error('Error adding project:', error);
@@ -44,9 +44,9 @@ function App() {
         setIsEditDialogOpen(true);
     };
 
-    const handleSaveEdit = async (id: string, project: Omit<Project, '_id'>) => {
+    const handleSaveEdit = async (id: string, title: string, link: string) => {
         try {
-            await axios.put(`${API_URL}/projects/${id}`, project);
+            await axios.put(`${API_URL}/projects/${id}`, { title, link });
             loadProjects();
         } catch (error) {
             console.error('Error updating project:', error);
@@ -101,7 +101,7 @@ function App() {
                     setIsEditDialogOpen(false);
                     setSelectedProject(null);
                 }}
-                onEdit={handleSaveEdit}
+                onSave={handleSaveEdit}
                 project={selectedProject}
             />
         </Container>
