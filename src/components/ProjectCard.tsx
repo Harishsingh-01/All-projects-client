@@ -20,10 +20,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, onDelete, onEdit }) 
                 position: 'relative',
                 transition: 'all 0.3s ease-in-out',
                 borderRadius: 2,
-                background: 'linear-gradient(145deg, #ffffff 0%, #f5f5f5 100%)',
+                background: 'linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%)',
+                boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
                 '&:hover': {
                     transform: 'translateY(-8px)',
-                    boxShadow: '0 12px 20px rgba(0,0,0,0.1)',
+                    boxShadow: '0 12px 20px rgba(0,0,0,0.15)',
                 }
             }}
         >
@@ -39,7 +40,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, onDelete, onEdit }) 
                     component="div" 
                     sx={{ 
                         fontWeight: 600,
-                        color: 'primary.main',
+                        background: 'linear-gradient(45deg, #2196f3 30%, #21cbf3 90%)',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
                         fontSize: '1.25rem',
                         mb: 1
                     }}
@@ -53,7 +56,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, onDelete, onEdit }) 
                         color="text.secondary"
                         sx={{ 
                             mb: 2,
-                            lineHeight: 1.5
+                            lineHeight: 1.5,
+                            color: 'rgba(0, 0, 0, 0.7)'
                         }}
                     >
                         {project.description}
@@ -66,9 +70,12 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, onDelete, onEdit }) 
                         size="small"
                         sx={{ 
                             alignSelf: 'flex-start',
-                            backgroundColor: 'primary.light',
-                            color: 'primary.contrastText',
-                            fontWeight: 500
+                            background: 'linear-gradient(45deg, #2196f3 30%, #21cbf3 90%)',
+                            color: 'white',
+                            fontWeight: 500,
+                            '&:hover': {
+                                background: 'linear-gradient(45deg, #1976d2 30%, #21cbf3 90%)',
+                            }
                         }}
                     />
                 )}
@@ -80,7 +87,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, onDelete, onEdit }) 
                     mt: 'auto',
                     pt: 2,
                     borderTop: '1px solid',
-                    borderColor: 'divider'
+                    borderColor: 'rgba(0, 0, 0, 0.1)'
                 }}>
                     <Tooltip title="Open Project">
                         <IconButton 
@@ -89,7 +96,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, onDelete, onEdit }) 
                             color="primary"
                             sx={{ 
                                 '&:hover': { 
-                                    backgroundColor: 'primary.light',
+                                    background: 'linear-gradient(45deg, #2196f3 30%, #21cbf3 90%)',
+                                    color: 'white',
                                     transform: 'scale(1.1)'
                                 },
                                 transition: 'all 0.2s ease-in-out'
@@ -105,7 +113,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, onDelete, onEdit }) 
                                 color="info"
                                 sx={{ 
                                     '&:hover': { 
-                                        backgroundColor: 'info.light',
+                                        background: 'linear-gradient(45deg, #2196f3 30%, #21cbf3 90%)',
+                                        color: 'white',
                                         transform: 'scale(1.1)'
                                     },
                                     transition: 'all 0.2s ease-in-out'
@@ -120,7 +129,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, onDelete, onEdit }) 
                                 color="error"
                                 sx={{ 
                                     '&:hover': { 
-                                        backgroundColor: 'error.light',
+                                        background: 'linear-gradient(45deg, #f44336 30%, #ff5252 90%)',
+                                        color: 'white',
                                         transform: 'scale(1.1)'
                                     },
                                     transition: 'all 0.2s ease-in-out'
