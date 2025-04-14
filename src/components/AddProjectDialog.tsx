@@ -9,29 +9,53 @@ import {
     Box,
     Typography,
     IconButton,
-    InputAdornment
+    InputAdornment,
+    MenuItem,
+    Select,
+    FormControl,
+    InputLabel
 } from '@mui/material';
-import { Close as CloseIcon, Link as LinkIcon, Title as TitleIcon } from '@mui/icons-material';
+import { Close as CloseIcon, Link as LinkIcon, Title as TitleIcon, Description as DescriptionIcon, Category as CategoryIcon } from '@mui/icons-material';
 
 interface AddProjectDialogProps {
     open: boolean;
     onClose: () => void;
-    onAdd: (title: string, link: string) => void;
+    onAdd: (title: string, link: string, description?: string, category?: string) => void;
 }
 
 const AddProjectDialog: React.FC<AddProjectDialogProps> = ({ open, onClose, onAdd }) => {
     const [title, setTitle] = useState('');
     const [link, setLink] = useState('');
+    const [description, setDescription] = useState('');
+    const [category, setCategory] = useState('');
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (title.trim() && link.trim()) {
-            onAdd(title.trim(), link.trim());
+            onAdd(
+                title.trim(), 
+                link.trim(), 
+                description.trim() || undefined, 
+                category.trim() || undefined
+            );
             setTitle('');
             setLink('');
+            setDescription('');
+            setCategory('');
             onClose();
         }
     };
+
+    const categories = [
+        'Web Development',
+        'Mobile App',
+        'Desktop App',
+        'API',
+        'Database',
+        'UI/UX Design',
+        'Machine Learning',
+        'Other'
+    ];
 
     return (
         <Dialog 
@@ -122,6 +146,59 @@ const AddProjectDialog: React.FC<AddProjectDialogProps> = ({ open, onClose, onAd
                                 },
                             }}
                         />
+                        <TextField
+                            label="Project Description"
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            fullWidth
+                            multiline
+                            rows={3}
+                            variant="outlined"
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <DescriptionIcon color="primary" />
+                                    </InputAdornment>
+                                ),
+                            }}
+                            sx={{
+                                '& .MuiOutlinedInput-root': {
+                                    '&:hover fieldset': {
+                                        borderColor: 'primary.main',
+                                    },
+                                },
+                            }}
+                        />
+                        <FormControl fullWidth variant="outlined">
+                            <InputLabel id="category-label">Category</InputLabel>
+                            <Select
+                                labelId="category-label"
+                                value={category}
+                                onChange={(e) => setCategory(e.target.value)}
+                                label="Category"
+                                startAdornment={
+                                    <InputAdornment position="start">
+                                        <CategoryIcon color="primary" />
+                                    </InputAdornment>
+                                }
+                                sx={{
+                                    '& .MuiOutlinedInput-root': {
+                                        '&:hover fieldset': {
+                                            borderColor: 'primary.main',
+                                        },
+                                    },
+                                }}
+                            >
+                                <MenuItem value="">
+                                    <em>None</em>
+                                </MenuItem>
+                                {categories.map((cat) => (
+                                    <MenuItem key={cat} value={cat}>
+                                        {cat}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
                     </Box>
                 </DialogContent>
                 <DialogActions sx={{ px: 3, pb: 3 }}>

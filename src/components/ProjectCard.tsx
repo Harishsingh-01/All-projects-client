@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardContent, Typography, IconButton, Box, Chip, Tooltip } from '@mui/material';
-import { Delete as DeleteIcon, Launch as LaunchIcon, Edit as EditIcon } from '@mui/icons-material';
+import { Delete as DeleteIcon, Launch as LaunchIcon, Edit as EditIcon, AccessTime as AccessTimeIcon } from '@mui/icons-material';
 import { Project } from '../types';
 
 interface ProjectCardProps {
@@ -10,6 +10,18 @@ interface ProjectCardProps {
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ project, onDelete, onEdit }) => {
+    // Format the creation date
+    const formatDate = (dateString: string) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    };
+
     return (
         <Card 
             sx={{ 
@@ -64,21 +76,38 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, onDelete, onEdit }) 
                     </Typography>
                 )}
                 
-                {project.category && (
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 1 }}>
+                    {project.category && (
+                        <Chip 
+                            label={project.category}
+                            size="small"
+                            sx={{ 
+                                alignSelf: 'flex-start',
+                                background: 'linear-gradient(45deg, #2196f3 30%, #21cbf3 90%)',
+                                color: 'white',
+                                fontWeight: 500,
+                                '&:hover': {
+                                    background: 'linear-gradient(45deg, #1976d2 30%, #21cbf3 90%)',
+                                }
+                            }}
+                        />
+                    )}
                     <Chip 
-                        label={project.category}
+                        icon={<AccessTimeIcon fontSize="small" />}
+                        label={formatDate(project.createdAt)}
                         size="small"
+                        variant="outlined"
                         sx={{ 
                             alignSelf: 'flex-start',
-                            background: 'linear-gradient(45deg, #2196f3 30%, #21cbf3 90%)',
-                            color: 'white',
-                            fontWeight: 500,
-                            '&:hover': {
-                                background: 'linear-gradient(45deg, #1976d2 30%, #21cbf3 90%)',
+                            color: 'text.secondary',
+                            borderColor: 'rgba(0, 0, 0, 0.2)',
+                            '& .MuiChip-icon': {
+                                color: 'text.secondary',
+                                fontSize: '1rem'
                             }
                         }}
                     />
-                )}
+                </Box>
                 
                 <Box sx={{ 
                     display: 'flex', 
