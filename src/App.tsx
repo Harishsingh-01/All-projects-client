@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Typography, Button, Box, ThemeProvider, createTheme, CssBaseline } from '@mui/material';
-import { Grid } from '@mui/material';
+import Grid from '@mui/material/Grid';
 import { Add as AddIcon } from '@mui/icons-material';
 import axios from 'axios';
 import ProjectCard from './components/ProjectCard';
@@ -155,17 +155,25 @@ function App() {
                             Add Project
                         </Button>
                     </Box>
-                    <Grid container spacing={3}>
+                    <Box sx={{ 
+                        display: 'grid', 
+                        gridTemplateColumns: { 
+                            xs: '1fr', 
+                            sm: '1fr 1fr', 
+                            md: '1fr 1fr 1fr' 
+                        }, 
+                        gap: 3 
+                    }}>
                         {projects.map((project) => (
-                            <Grid item xs={12} sm={6} md={4} key={project._id}>
+                            <Box key={project._id}>
                                 <ProjectCard
                                     project={project}
                                     onDelete={handleDeleteProject}
                                     onEdit={handleEditProject}
                                 />
-                            </Grid>
+                            </Box>
                         ))}
-                    </Grid>
+                    </Box>
                     <AddProjectDialog
                         open={isAddDialogOpen}
                         onClose={() => setIsAddDialogOpen(false)}
